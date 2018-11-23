@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +45,9 @@ public class Node {
     }
 
     private static void checkName(Node node) {
-        if(node.name == "")
+        if (node.name.length() == 0) {
             throw new RuntimeException();
+        }
     }
 
     public static String flipTree(String s) {
@@ -73,8 +78,23 @@ public class Node {
         return s;
     }
 
-    public static void main(String... s) {}
+    public static void main(String... args) {
+        if (args.length != 1) {
+            System.out.println("you must specify input file path");
+            System.exit(-1);
+        }
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("out.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(args[0]));
+            for (String line; (line = br.readLine()) != null; ) {
+                bw.write(Node.flipTree(line));
+                bw.newLine();
+            }
+            br.close();
+            bw.close();
+        } catch (Exception e) {
+            System.out.println("something goes wrong");
+            System.exit(-1);
+        }
+    }
 }
-
-// TODO:
-// file IO
